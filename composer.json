@@ -1,0 +1,12 @@
+{
+    "name": "narakode/fineauth",
+    "description": "Fine Auth",
+    "type": "library",
+    "authors": [
+        {
+            "name": "ibrahimalanshor",
+            "email": "ibrahimalanshor6@gmail.com"
+        }
+    ],
+    "require": {}
+}
