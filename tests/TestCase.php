@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Narakode\FineAuth\Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
 

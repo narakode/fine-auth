@@ -1,6 +1,6 @@
 <?php
 
-use Tests\TestCase;
+use Narakode\FineAuth\Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
