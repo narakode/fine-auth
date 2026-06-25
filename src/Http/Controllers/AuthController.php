@@ -3,13 +3,14 @@
 namespace Narakode\FineAuth\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => [
                 'required',
@@ -20,6 +21,12 @@ class AuthController extends Controller
                     ->symbols()
             ]
         ]);
+
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'message' => 'The provided credentials do not match our records.'
+            ], 401);
+        }
 
         return [];
     }
