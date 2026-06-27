@@ -28,6 +28,10 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return [];
+        $user = Auth::user();
+
+        return [
+            'access_token' => $user->createToken('api')->plainTextToken
+        ];
     }
 }

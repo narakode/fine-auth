@@ -55,5 +55,8 @@
             "@clear",
             "@php vendor/bin/pest"
         ]
+    },
+    "require": {
+        "laravel/sanctum": "^4.3"
     }
 }
