@@ -64,3 +64,31 @@ test('login returns access token when attempt success', function () {
             'access_token' => $fakeToken
         ]);
 });
+
+test('login returns user object', function () {
+    $credentials = [
+        'email' => 'test@example.com',
+        'password' => 'dcG&494hj.6k'
+    ];
+
+    $user = Mockery::mock(new User(['email' => 'test@gmail.com', 'name' => 'test', 'password' => 'password']))->makePartial();
+
+    Auth::expects('attempt')
+        ->with($credentials)
+        ->andReturn(true);
+    Auth::expects('user')
+        ->andReturn($user);
+
+    $user->shouldReceive('createToken')
+        ->with('api')
+        ->andReturn(new NewAccessToken(new PersonalAccessToken(), Str::random()));
+
+    $response = $this->withHeaders(['accept' => 'application/json'])
+        ->post('/login', $credentials);
+
+    $response->assertStatus(200)
+        ->assertJson([
+            'user' => $user->toArray()
+        ])
+        ->assertJsonMissingPaths(['user.password']);
+});
