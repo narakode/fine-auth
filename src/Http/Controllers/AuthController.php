@@ -33,10 +33,12 @@ class AuthController extends Controller
 
         $refreshToken = Str::random();
 
+        $expireAt = now()->addHour();
+
         $user->refreshTokens()->delete();
         $user->refreshTokens()->create([
             'token' => $refreshToken,
-            'expire_at' => now()->addHour()
+            'expire_at' => $expireAt
         ]);
 
         return response()
@@ -46,7 +48,8 @@ class AuthController extends Controller
             ])
             ->withCookie(cookie(
                 name: 'refresh_token',
-                value: $refreshToken
+                value: $refreshToken,
+                minutes: now()->diffInMinutes($expireAt)
             ));
     }
 }

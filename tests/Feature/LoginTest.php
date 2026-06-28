@@ -94,7 +94,7 @@ describe('when login attempt success', function () {
         $response->assertPlainCookie('refresh_token', $refreshToken);
     });
 
-    test('cookies has expiration', function () {
+    test('refresh token has expiration', function () {
         $this->freezeTime(function () {
             $credentials = [
                 'email' => 'test@example.com',
@@ -103,13 +103,21 @@ describe('when login attempt success', function () {
 
             $user = User::first();
 
-            $this->withHeaders(['accept' => 'application/json'])
+            $response = $this->withHeaders(['accept' => 'application/json'])
                 ->post('/login', $credentials)
                 ->assertStatus(200);
 
+            $refreshTokenExpire = now()->addHour();
             $refreshToken = $user->refreshTokens()->first();
 
-            $this->assertEquals($refreshToken->expire_at, now()->addHour());
+            $this->assertEquals($refreshToken->expire_at, $refreshTokenExpire);
+
+            $refreshTokenCookie = collect($response->headers->getCookies())
+                ->first(function ($cookie) {
+                    return $cookie->getName() === 'refresh_token';
+                });
+
+            $this->assertEquals($refreshTokenCookie->getExpiresTime(), $refreshTokenExpire->timestamp);
         });
     });
 });
