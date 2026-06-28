@@ -35,7 +35,8 @@ class AuthController extends Controller
 
         $user->refreshTokens()->delete();
         $user->refreshTokens()->create([
-            'token' => $refreshToken
+            'token' => $refreshToken,
+            'expire_at' => now()->addHour()
         ]);
 
         return response()
