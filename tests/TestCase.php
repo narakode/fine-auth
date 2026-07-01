@@ -31,7 +31,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->loadMigrationsFrom([
             __DIR__ . '/../vendor/laravel/sanctum/database/migrations',
-            __DIR__ . '/../src/migrations'
+            __DIR__ . '/../database/migrations'
         ]);
     }
 }
