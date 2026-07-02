@@ -1,6 +1,6 @@
 {
     "name": "narakode/fineauth",
-    "description": "Fine Auth",
+    "description": "A simple authentication package for Laravel REST APIs.",
     "type": "library",
     "authors": [
         {
